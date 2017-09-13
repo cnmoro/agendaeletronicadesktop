@@ -45,7 +45,7 @@ public class Contato implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private int id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -63,7 +63,7 @@ public class Contato implements Serializable {
     public Contato() {
     }
 
-    public Contato(Integer id) {
+    public Contato(int id) {
         this.id = id;
     }
 
@@ -75,12 +75,12 @@ public class Contato implements Serializable {
         this.email = email;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        Integer oldId = this.id;
+    public void setId(int id) {
+        int oldId = this.id;
         this.id = id;
         changeSupport.firePropertyChange("id", oldId, id);
     }
@@ -133,26 +133,6 @@ public class Contato implements Serializable {
         String oldEmail = this.email;
         this.email = email;
         changeSupport.firePropertyChange("email", oldEmail, email);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Contato)) {
-            return false;
-        }
-        Contato other = (Contato) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

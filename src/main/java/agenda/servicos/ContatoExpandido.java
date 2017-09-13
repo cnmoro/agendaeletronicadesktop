@@ -5,17 +5,30 @@
  */
 package agenda.servicos;
 
+import agenda.entidades.Contato;
+import agenda.entidades.EManager;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author moro
  */
 public class ContatoExpandido extends javax.swing.JFrame {
 
+    Contato contatoSelecionado = new Contato();
+
     /**
      * Creates new form ContatoExpandido
      */
     public ContatoExpandido() {
         initComponents();
+        contatoSelecionado.setId(InterfacePrincipal.getContatoSelecionado().getId());
+        txt_nome.setText(InterfacePrincipal.getContatoSelecionado().getNome());
+        txt_endereco.setText(InterfacePrincipal.getContatoSelecionado().getEndereco());
+        txt_celular.setText(InterfacePrincipal.getContatoSelecionado().getCelular());
+        txt_telfixo.setText(InterfacePrincipal.getContatoSelecionado().getTelfixo());
+        txt_email.setText(InterfacePrincipal.getContatoSelecionado().getEmail());
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -41,7 +54,9 @@ public class ContatoExpandido extends javax.swing.JFrame {
         txt_celular = new javax.swing.JTextField();
         bt_excluir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Modificar Contato");
+        setResizable(false);
 
         jLabel1.setText("Nome*");
 
@@ -63,6 +78,11 @@ public class ContatoExpandido extends javax.swing.JFrame {
         });
 
         bt_excluir.setText("Excluir");
+        bt_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_excluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,8 +158,31 @@ public class ContatoExpandido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificarActionPerformed
-        // TODO add your handling code here:
+        Contato contatoModificado = new Contato();
+        contatoModificado.setId(InterfacePrincipal.getContatoSelecionado().getId());
+        contatoModificado.setNome(txt_nome.getText());
+        contatoModificado.setEndereco(txt_endereco.getText());
+        contatoModificado.setCelular(txt_celular.getText());
+        contatoModificado.setTelfixo(txt_telfixo.getText());
+        contatoModificado.setEmail(txt_email.getText());
+        EManager.getInstance().getTransaction().begin();
+        EManager.getInstance().merge(contatoModificado);
+        EManager.getInstance().getTransaction().commit();
+        JOptionPane.showMessageDialog(null, "Contato modificado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        InterfacePrincipal.refreshTabela();
+        dispose();
+        InterfacePrincipal.tabela_contatos.setEnabled(true);
     }//GEN-LAST:event_bt_modificarActionPerformed
+
+    private void bt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_excluirActionPerformed
+        EManager.getInstance().getTransaction().begin();
+        EManager.getInstance().remove(EManager.getInstance().createNamedQuery("Contato.findById").setParameter("id", this.contatoSelecionado.getId()).getSingleResult());
+        EManager.getInstance().getTransaction().commit();
+        JOptionPane.showMessageDialog(null, "Contato excluído", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        InterfacePrincipal.refreshTabela();
+        dispose();
+        InterfacePrincipal.tabela_contatos.setEnabled(true);
+    }//GEN-LAST:event_bt_excluirActionPerformed
 
     /**
      * @param args the command line arguments

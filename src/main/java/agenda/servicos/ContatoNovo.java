@@ -142,6 +142,7 @@ public class ContatoNovo extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Contato cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         InterfacePrincipal.refreshTabela();
         dispose();
+        InterfacePrincipal.tabela_contatos.setEnabled(true);
     }//GEN-LAST:event_bt_adicionarActionPerformed
 
     /**
