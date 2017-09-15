@@ -158,20 +158,35 @@ public class ContatoExpandido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificarActionPerformed
-        Contato contatoModificado = new Contato();
-        contatoModificado.setId(InterfacePrincipal.getContatoSelecionado().getId());
-        contatoModificado.setNome(txt_nome.getText());
-        contatoModificado.setEndereco(txt_endereco.getText());
-        contatoModificado.setCelular(txt_celular.getText());
-        contatoModificado.setTelfixo(txt_telfixo.getText());
-        contatoModificado.setEmail(txt_email.getText());
-        EManager.getInstance().getTransaction().begin();
-        EManager.getInstance().merge(contatoModificado);
-        EManager.getInstance().getTransaction().commit();
-        JOptionPane.showMessageDialog(null, "Contato modificado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        InterfacePrincipal.refreshTabela();
-        dispose();
-        InterfacePrincipal.tabela_contatos.setEnabled(true);
+        if (txt_nome.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Campo 'Nome' não foi preenchido! \nEste campo é obrigatório.");
+        }
+        else if (txt_email.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Campo 'Email' não foi preenchido! \nEste campo é obrigatório.");
+        }
+        else if (txt_endereco.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Campo 'Endereço' não foi preenchido! \nEste campo é obrigatório.");
+        }
+        else
+        {
+            Contato contatoModificado = new Contato();
+            contatoModificado.setId(InterfacePrincipal.getContatoSelecionado().getId());
+            contatoModificado.setNome(txt_nome.getText());
+            contatoModificado.setEndereco(txt_endereco.getText());
+            contatoModificado.setCelular(txt_celular.getText());
+            contatoModificado.setTelfixo(txt_telfixo.getText());
+            contatoModificado.setEmail(txt_email.getText());
+            EManager.getInstance().getTransaction().begin();
+            EManager.getInstance().merge(contatoModificado);
+            EManager.getInstance().getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Contato modificado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            InterfacePrincipal.refreshTabela();
+            dispose();
+            InterfacePrincipal.tabela_contatos.setEnabled(true);
+        }
     }//GEN-LAST:event_bt_modificarActionPerformed
 
     private void bt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_excluirActionPerformed
